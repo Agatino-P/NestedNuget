@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <Version>1.0.3</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="static.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Content Include="static.txt" Pack="true" PackagePath="contentFiles\any\any">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+  </ItemGroup>
+
+</Project>
