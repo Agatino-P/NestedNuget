@@ -1,0 +1,45 @@
+ docker run -d -p 8081:8081 --name nexus sonatype/nexus3
+user admin
+password inside volume under 
+/nexus-data/admin.password
+
+
+connect to http://localhost:8081/
+and change the password
+
+do not try to work with admin user to update nugets, create a new one
+
+
+
+give the admin permission and then you can create an apikey
+
+you can use the nexus provided command to add the apikey to nuget.config
+
+nuget setapikey 21a3164f-1890-3bcf-88a9-28e2315ce795 -source http://localhost:8081/repository/{repository name}/
+
+you need to replace the url with the one you get from browsing the repos in nexus and copying the url of the nuget one with the copy url button
+
+http://localhost:8081/repository/nuget-group/
+
+nuget setapikey 21a3164f-1890-3bcf-88a9-28e2315ce795 -source http://localhost:8081/repository/nuget-group/
+
+ it will do it to the user nuget.config in C:\Users\agatino\AppData\Roaming\NuGet 
+ 
+ note that the apikey gets base64 encoded
+ 
+ 
+ Note also that the free version of nexus by default runs on http instead of https, to allow nuget to use it you might need to add an attribute inside nuget.config 
+ allowInsecureConnections="true"
+ 
+ this is what it should look like in the end:
+ 
+ <?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="MyLocalNuGetRepo" value="http://localhost:8081/repository/nuget-hosted/" allowInsecureConnections="true" />
+  </packageSources>
+
+  <apikeys>
+    <add key="MyLocalNuGetRepo" value="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAG0nVIP8hYU6pv5V0xm2EyQAAAAACAAAAAAAQZgAAAAEAACAAAAD8Ha6JURBKtIZa6Od94Wje+GEXEpj4ICRgqGd+LeeAiAAAAAAOgAAAAAIAACAAAAAWWUGr2YlpW/RCkIuAFftHAcv45eQySdm88MXanZPEjTAAAAAHwzOYS8PQUvcC9pmgpQc32O8eW+ix8N5mAkHp8Bw/Z4oWia7EgX9y9hKEg2vW9edAAAAAiMcf5wP0l3scnLErgfVWmvlzOMAIgBbjz6/Bgg4oXHeCfYQnm8XN6SQ3/5XSzgMnB6qR8zpuNdu8gwBau/HJmA==" />
+  </apikeys>
+</configuration>
